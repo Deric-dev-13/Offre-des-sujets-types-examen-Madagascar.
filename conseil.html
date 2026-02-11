@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Conseils & Tutos | Examen Mada</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           VARIABLES & CONFIG (Cohérent avec le reste)
+           ========================================= */
+        :root {
+            --nav-height: 70px;
+            --gold: #d4af37;
+            --tech-blue: #0ea5e9;
+            --success: #10b981;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-input: #020617;
+            --border: rgba(255,255,255,0.1);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --shadow: rgba(0,0,0,0.6);
+            --step-bg: #2d3748;
+        }
+
+        :root[data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-panel: #ffffff;
+            --bg-input: #e2e8f0;
+            --border: #cbd5e1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow: rgba(0,0,0,0.1);
+            --step-bg: #f1f5f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-top: var(--nav-height);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--nav-height);
+            background: var(--bg-panel); border-bottom: 2px solid var(--gold);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000; box-shadow: 0 5px 20px var(--shadow);
+        }
+        .logo h1 { font-family: 'Cinzel', serif; font-size: 1.2rem; margin: 0; }
+        .logo span { color: var(--gold); }
+        .logo a { text-decoration: none; color: var(--text-main); }
+
+        .header-controls { display: flex; gap: 10px; align-items: center; }
+        .lang-select {
+            background: var(--bg-input); color: var(--text-main);
+            border: 1px solid var(--border); padding: 5px;
+            border-radius: 5px; font-weight: bold; outline: none;
+        }
+        .theme-btn, .home-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--text-main);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* HERO SECTION */
+        .page-header {
+            height: 30vh;
+            background: linear-gradient(to bottom, rgba(15,23,42,0.9), var(--bg-body)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1920');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 0 20px;
+        }
+        .page-header h2 { font-family: 'Cinzel'; font-size: 2rem; color: #fff; margin-bottom: 10px; }
+        .page-header p { color: var(--gold); font-size: 1.1rem; }
+
+        /* FILTRES */
+        .filter-container {
+            max-width: 800px; margin: -25px auto 30px; padding: 15px;
+            background: var(--bg-panel); border-radius: 50px;
+            border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow);
+            display: flex; justify-content: center; gap: 10px; overflow-x: auto;
+        }
+        .filter-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-weight: bold;
+            transition: 0.3s;
+        }
+        .filter-btn.active{margin-left:30%;}
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--gold); color: #000; border-color: var(--gold);
+        }
+
+        /* GRILLE */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 60px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+
+        /* CARTE GUIDE */
+        .guide-card {
+            background: var(--bg-panel); border: 1px solid var(--border);
+            border-radius: 12px; overflow: hidden; transition: 0.3s;
+            cursor: pointer; position: relative;
+        }
+        .guide-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+
+        .card-img-container { height: 160px; overflow: hidden; position: relative; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .guide-card:hover .card-img { transform: scale(1.1); }
+        
+        .cat-badge {
+            position: absolute; top: 10px; right: 10px;
+            padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;
+            color: #fff; z-index: 2;
+        }
+        .cat-pay { background: var(--success); }
+        .cat-app { background: var(--tech-blue); }
+
+        .card-body { padding: 20px; }
+        .guide-title { font-family: 'Cinzel'; font-size: 1.1rem; margin-bottom: 10px; color: var(--text-main); }
+        .guide-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; }
+        .read-more { color: var(--gold); font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+        /* MODAL TUTORIEL (FULL SCREEN MOBILE) */
+        .tuto-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .tuto-modal.active { display: flex; opacity: 1; }
+
+        .tuto-content {
+            background: var(--bg-panel); width: 95%; max-width: 600px; height: 90vh;
+            border-radius: 12px; border: 1px solid var(--gold);
+            display: flex; flex-direction: column; overflow: hidden;
+            position: relative;
+        }
+
+        .tuto-header {
+            padding: 15px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-input);
+        }
+        .tuto-title { font-family: 'Cinzel'; color: var(--gold); font-size: 1.2rem; }
+        .close-btn { background: none; border: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer; }
+
+        .tuto-body {
+            padding: 20px; overflow-y: auto; flex-grow: 1;
+        }
+
+        /* ÉTAPES */
+        .step-item {
+            display: flex; gap: 15px; margin-bottom: 30px;
+            background: var(--step-bg); padding: 15px; border-radius: 8px;
+            border-left: 3px solid var(--gold);
+        }
+        .step-num {
+            background: var(--gold); color: #000; width: 30px; height: 30px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; flex-shrink: 0;
+        }
+        .step-details { flex-grow: 1; }
+        .step-img {
+            width: 100%; max-height: 250px; object-fit: contain;
+            border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--border);
+            background: #000;
+        }
+        .step-text { font-size: 0.95rem; line-height: 1.5; color: var(--text-main); }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-input); border-top: 1px solid var(--gold);
+            padding: 30px; text-align: center; margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <h1><i class="fas fa-book-open"></i> EXAMEN <span>MADA</span></h1>
+            </a>
+        </div>
+        
+        <div class="header-controls">
+            <select id="langSelector" class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="fr">🇫🇷 FR</option>
+                <option value="mg">🇲🇬 MG</option>
+                <option value="en">🇬🇧 EN</option>
+            </select>
+            <button class="home-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="theme-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="page-header">
+        <h2 data-i18n="hero_title">GUIDE D'UTILISATION</h2>
+        <p data-i18n="hero_desc">Apprenez à utiliser l'application et à débloquer vos sujets.</p>
+    </section>
+
+    <!-- FILTRES -->
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterGuides('all', this)" data-i18n="filter_all">TOUT</button>
+        <button class="filter-btn" onclick="filterGuides('pay', this)" data-i18n="filter_payment">PAIEMENT & DÉBLOCAGE</button>
+        <button class="filter-btn" onclick="filterGuides('app', this)" data-i18n="filter_general">UTILISATION GÉNÉRALE</button>
+    </div>
+
+    <!-- GRILLE CONTENU -->
+    <div class="container">
+        <div class="grid" id="guidesGrid">
+            <!-- INJECTÉ PAR JS -->
+        </div>
+    </div>
+
+    <!-- MODAL TUTORIEL -->
+    <div class="tuto-modal" id="tutoModal">
+        <div class="tuto-content">
+            <div class="tuto-header">
+                <h3 class="tuto-title" id="modalTitle">Titre du Guide</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="tuto-body" id="modalSteps">
+                <!-- ETAPES INJECTÉES PAR JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 EXAMEN MADA. <span data-i18n="footer_txt">Aide & Support.</span></p>
+    </footer>
+
+    <script>
+        /* =========================================
+           1. DONNÉES DES TUTORIELS (MOCKAPI SIMULÉ)
+           ========================================= */
+        // Vous pouvez remplacer les URLs d'images par vos propres screenshots
+        const GUIDES = [
+            {
+                id: 1,
+                category: "pay",
+                title_fr: "Comment débloquer un sujet ?",
+                desc_fr: "Guide complet pour payer par Mobile Money et obtenir le code.",
+                title_mg: "Ahoana no hamohana sujet ?",
+                desc_mg: "Torolalana feno amin'ny fandoavana vola sy fahazoana kaody.",
+                title_en: "How to unlock a subject?",
+                desc_en: "Complete guide to pay via Mobile Money and get the code.",
+                image: "https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=400",
+                steps: [
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png", // Remplacez par screenshot bouton 'OBTENIR'
+                        text_fr: "1. Choisissez le sujet ou la correction qui vous intéresse et cliquez sur le bouton <b>OBTENIR</b>.",
+                        text_mg: "1. Safidio ny laza adina na fanitsiana tianao ary tsindrio ny bokotra <b>ALAINA (OBTENIR)</b>.",
+                        text_en: "1. Choose the subject or correction you want and click the <b>GET</b> button."
+                    },
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/2331/2331941.png", // Remplacez par screenshot Modal Paiement
+                        text_fr: "2. Une fenêtre s'ouvre. Envoyez le montant exact (ex: 500 Ar) par <b>MVola</b> ou <b>Orange Money</b> aux numéros affichés.",
+                        text_mg: "2. Misy varavarankely misokatra. Alefaso amin'ny <b>MVola</b> na <b>Orange Money</b> ny vola (ohatra: 500 Ar) amin'ny laharana hita eo.",
+                        text_en: "2. A window opens. Send the exact amount (e.g., 500 Ar) via <b>MVola</b> or <b>Orange Money</b> to the numbers shown."
+                    },
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/685/685655.png", // Remplacez par screenshot Camera
+                        text_fr: "3. <b>Important :</b> Prenez une capture d'écran ou une photo du SMS de confirmation de paiement. Cliquez sur l'icône Caméra pour charger la preuve.",
+                        text_mg: "3. <b>Zava-dehibe :</b> Makà sary (capture d'écran) ny SMS manamarina ny fandefasana vola. Tsindrio ny sary Fakan-tsary mba hampidirana ny porofo.",
+                        text_en: "3. <b>Important:</b> Take a screenshot or photo of the payment confirmation SMS. Click the Camera icon to upload the proof."
+                    },
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/3670/3670051.png", // Remplacez par screenshot Whatsapp
+                        text_fr: "4. Cliquez sur <b>ENVOYER PREUVE</b>. Cela ouvrira WhatsApp. Envoyez le message pré-rempli à l'administrateur.",
+                        text_mg: "4. Tsindrio ny <b>ALEFASO PREUVE</b>. Hanokatra WhatsApp izany. Alefaso any amin'ny Admin ilay hafatra.",
+                        text_en: "4. Click on <b>SEND PROOF</b>. This will open WhatsApp. Send the pre-filled message to the administrator."
+                    },
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/1041/1041888.png", // Remplacez par screenshot Input Code
+                        text_fr: "5. L'admin vous enverra un CODE. Retournez sur l'application, entrez le code et cliquez sur <b>DÉBLOQUER</b>.",
+                        text_mg: "5. Handefa CODE aminao ny admin. Miverena ao amin'ny application, ampidiro ny code ary tsindrio <b>HAMOHA (DÉBLOQUER)</b>.",
+                        text_en: "5. The admin will send you a CODE. Go back to the app, enter the code, and click <b>UNLOCK</b>."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                category: "app",
+                title_fr: "Comment chercher un cours ?",
+                desc_fr: "Utiliser les filtres pour trouver Math, Physique, CEPE, BAC...",
+                title_mg: "Ahoana ny fitadiavana lesona ?",
+                desc_mg: "Mampiasa sivana (filtres) hitadiavana Math, Physique...",
+                title_en: "How to search for a course?",
+                desc_en: "Use filters to find Math, Physics, CEPE, BAC...",
+                image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=400",
+                steps: [
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/1150/1150643.png",
+                        text_fr: "Utilisez la barre de recherche en haut ou cliquez sur les boutons (CEPE, BEPC, BAC) pour filtrer les résultats.",
+                        text_mg: "Ampiasao ny fikarohana (recherche) na tsindrio ireo bokotra (CEPE, BEPC) mba hanivanana ny valiny.",
+                        text_en: "Use the search bar at the top or click the buttons (CEPE, BEPC, BAC) to filter results."
+                    }
+                ]
+            },
+            {
+                id: 3,
+                category: "app",
+                title_fr: "Mode Hors Ligne",
+                desc_fr: "Comment l'application fonctionne sans internet.",
+                title_mg: "Fomba Tsy misy Internet",
+                desc_mg: "Ny fiasan'ny application rehefa tsy misy connexion.",
+                title_en: "Offline Mode",
+                desc_en: "How the app works without internet.",
+                image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400",
+                steps: [
+                    {
+                        img: "https://cdn-icons-png.flaticon.com/512/4425/4425235.png",
+                        text_fr: "Une fois la page chargée, elle reste en mémoire. Vous pouvez voir les listes sans internet. Cependant, pour télécharger un PDF, la connexion est requise.",
+                        text_mg: "Rehefa misokatra ny pejy dia mijanona ao anaty fitadidiana. Afaka mijery lisitra tsy misy internet ianao. Fa mila connexion raha haka PDF.",
+                        text_en: "Once loaded, the page stays in memory. You can view lists without internet. However, connection is required to download a PDF."
+                    }
+                ]
+            }
+        ];
+
+        /* =========================================
+           2. SYSTÈME DE LANGUE
+           ========================================= */
+        const translations = {
+            fr: {
+                hero_title: "GUIDE D'UTILISATION",
+                hero_desc: "Tutoriels interactifs pour maîtriser l'application.",
+                filter_all: "TOUT",
+                filter_payment: "PAIEMENT & DÉBLOCAGE",
+                filter_general: "UTILISATION GÉNÉRALE",
+                footer_txt: "Aide & Support.",
+                read_more: "Lire le guide"
+            },
+            mg: {
+                hero_title: "TOROLALANA",
+                hero_desc: "Torohevitra mazava hifehezana ny application.",
+                filter_all: "REHETRA",
+                filter_payment: "FANDOAVAM-BOLA & FAMOHANA",
+                filter_general: "FAMPIASANA ANKAPOBENY",
+                footer_txt: "Fanampiana & Fanohanana.",
+                read_more: "Hijery ny torolalana"
+            },
+            en: {
+                hero_title: "USER GUIDE",
+                hero_desc: "Interactive tutorials to master the app.",
+                filter_all: "ALL",
+                filter_payment: "PAYMENT & UNLOCK",
+                filter_general: "GENERAL USAGE",
+                footer_txt: "Help & Support.",
+                read_more: "Read guide"
+            }
+        };
+
+        let currentLang = 'fr';
+
+        /* =========================================
+           3. LOGIQUE PRINCIPALE
+           ========================================= */
+        function init() {
+            initTheme();
+            const savedLang = localStorage.getItem('lang') || 'fr';
+            document.getElementById('langSelector').value = savedLang;
+            changeLanguage(savedLang);
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            
+            // Traduction statique
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.innerText = translations[lang][key];
+            });
+
+            // Re-render grille
+            renderGuides(GUIDES);
+        }
+
+        function renderGuides(list) {
+            const grid = document.getElementById('guidesGrid');
+            grid.innerHTML = '';
+
+            const t_read = translations[currentLang].read_more;
+
+            list.forEach(g => {
+                // Sélectionner titre/desc selon langue
+                const title = g[`title_${currentLang}`];
+                const desc = g[`desc_${currentLang}`];
+
+                // Badge couleur
+                let badgeClass = g.category === 'pay' ? 'cat-pay' : 'cat-app';
+                let badgeText = g.category === 'pay' ? 'Paiement' : 'App';
+
+                const card = document.createElement('div');
+                card.className = 'guide-card';
+                card.onclick = () => openModal(g.id);
+                card.innerHTML = `
+                    <div class="card-img-container">
+                        <span class="cat-badge ${badgeClass}">${badgeText}</span>
+                        <img src="${g.image}" class="card-img" alt="Tuto">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="guide-title">${title}</h4>
+                        <p class="guide-desc">${desc}</p>
+                        <div class="read-more">${t_read} <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGuides(cat, btn) {
+            // Gestion bouton actif
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if(cat === 'all') renderGuides(GUIDES);
+            else renderGuides(GUIDES.filter(g => g.category === cat));
+        }
+
+        /* =========================================
+           4. MODAL LOGIC
+           ========================================= */
+        function openModal(id) {
+            const guide = GUIDES.find(g => g.id === id);
+            if(!guide) return;
+
+            // Titre Modal
+            document.getElementById('modalTitle').innerText = guide[`title_${currentLang}`];
+
+            // Générer étapes
+            const stepsContainer = document.getElementById('modalSteps');
+            stepsContainer.innerHTML = '';
+
+            guide.steps.forEach((step, index) => {
+                const stepText = step[`text_${currentLang}`];
+                
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'step-item';
+                stepDiv.innerHTML = `
+                    <div class="step-num">${index + 1}</div>
+                    <div class="step-details">
+                        <img src="${step.img}" class="step-img" alt="Etape ${index+1}">
+                        <div class="step-text">${stepText}</div>
+                    </div>
+                `;
+                stepsContainer.appendChild(stepDiv);
+            });
+
+            const modal = document.getElementById('tutoModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('tutoModal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        // Fermer si clic en dehors
+        window.onclick = function(event) {
+            const modal = document.getElementById('tutoModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        /* =========================================
+           5. THÈME
+           ========================================= */
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeIcon').className = savedTheme==='dark'?'fas fa-moon':'fas fa-sun';
+        }
+        function toggleTheme() {
+            const html = document.documentElement;
+            const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            document.getElementById('themeIcon').className = next==='dark'?'fas fa-moon':'fas fa-sun';
+        }
+
+        init();
+    </script>
+</body>
+</html>

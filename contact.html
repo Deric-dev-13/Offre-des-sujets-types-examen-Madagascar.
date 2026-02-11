@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contact | EXAMEN Madagascar</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           VARIABLES & CONFIG
+           ========================================= */
+        :root {
+            --nav-height: 70px;
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --tech-blue: #0ea5e9;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-input: #020617;
+            --border: rgba(255,255,255,0.1);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --shadow: rgba(0,0,0,0.6);
+        }
+
+        :root[data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-panel: #ffffff;
+            --bg-input: #e2e8f0;
+            --border: #cbd5e1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --shadow: rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-top: var(--nav-height);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; width: 100%; height: var(--nav-height);
+            background: var(--bg-panel); border-bottom: 2px solid var(--gold);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000; box-shadow: 0 5px 20px var(--shadow);
+        }
+        .logo h1 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin: 0; }
+        .logo span { color: var(--gold); }
+        .logo a { text-decoration: none; color: var(--text-main); }
+        
+        /* STYLE SÉLECTEUR LANGUE */
+        .lang-select {
+            background: var(--bg-input); color: var(--text-main);
+            border: 1px solid var(--border); padding: 5px;
+            border-radius: 5px; font-family: 'Rajdhani'; font-weight: bold;
+            margin-right: 10px; cursor: pointer; outline: none;
+        }
+
+        .theme-btn {
+            background: transparent; border: 1px solid var(--border); color: var(--text-main);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .theme-btn:hover { background: var(--gold); color: #000; }
+
+        /* HERO CONTACT */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(to bottom, rgba(15,23,42,0.8), var(--bg-body)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20 20px; margin-bottom: 20px;
+        }
+        .page-header h2 { font-family: 'Cinzel', serif; font-size: 2.5rem; color: #fff; margin-bottom: 10px; text-shadow: 0 5px 15px #000; }
+        .page-header p { color: var(--gold); font-size: 1.1rem; letter-spacing: 1px; }
+
+        /* INFO CARD */
+        .info-card {
+            background: var(--bg-panel); border: 1px solid var(--border);
+            border-radius: 12px; padding: 30px; margin-bottom: 20px;
+            box-shadow: 0 10px 30px var(--shadow); transition: 0.3s; max-width: 800px; margin: 0 auto 30px;
+        }
+        .info-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        
+        .info-item { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .info-item:last-child { margin-bottom: 0; }
+        
+        .icon-box {
+            width: 50px; height: 50px; background: var(--bg-input); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold); font-size: 1.2rem; border: 1px solid var(--border);
+        }
+        .info-text h4 { font-family: 'Cinzel'; margin-bottom: 5px; color: var(--text-main); }
+        .info-text p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-input); border-top: 1px solid var(--gold);
+            padding: 40px 5%; text-align: center; margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <h1><i class="fas fa-graduation-cap"></i> EXAMEN <span>MADA</span></h1>
+            </a>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+            
+            <!-- SÉLECTEUR DE LANGUE -->
+            <select id="langSelector" class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="fr">🇫🇷 FR</option>
+                <option value="mg">🇲🇬 MG</option>
+                <option value="en">🇬🇧 EN</option>
+            </select>
+
+            <button class="theme-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+        
+        <!-- Trigger Mobile -->
+        <div class="mobile-trigger" onclick="goHome()">
+            <i class="fas fa-home" style="color:var(--gold);"></i>
+        </div>  
+    </header>
+
+    <!-- HERO HEADER -->
+    <section class="page-header">
+        <h2 data-i18n="hero_title">CONTACTEZ-NOUS</h2>
+        <p data-i18n="hero_desc">Une question ? Une suggestion ? L'équipe est à votre écoute.</p>
+    </section>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div class="contact-container">
+        
+        <!-- INFO CARDS -->
+        <div class="info-card">
+            <h3 style="font-family:'Cinzel'; margin-bottom:20px; color:var(--text-main);" data-i18n="info_title">Nos Coordonnées</h3>
+            
+            <div class="info-item">
+                <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-text">
+                    <h4 data-i18n="addr_label">Adresse</h4>
+                    <p>Campus Universitaire, <br>Antsiranana 201, Madagascar</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-box"><i class="fas fa-phone"></i></div>
+                <div class="info-text">
+                    <h4 data-i18n="phone_label">Téléphone</h4>
+                    <p>+261 34 11 084 01</p>
+                    <p>+261 32 52 304 18</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                <div class="info-text">
+                    <h4 data-i18n="email_label">Email</h4>
+                    <p>rmiandrisoaderic@gmail.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOUTON WHATSAPP -->
+        <a href="https://wa.me/261341108401" target="_blank" style="text-decoration:none;">
+            <div class="info-card" style="background:#25D366; border:none; text-align:center; cursor:pointer;">
+                <h4 style="color:#fff; margin:0;"><i class="fab fa-whatsapp"></i> <span data-i18n="wa_btn">DISCUTER SUR WHATSAPP</span></h4>
+            </div>
+        </a>
+        
+        <!-- FORMULAIRE EMAIL -->
+        <section style="padding: 30px 5%; background: var(--bg-panel); border-top: 1px solid var(--gold); max-width:800px; margin:0 auto; border-radius:12px;">
+            <h3 style="color:var(--gold); font-family:'Cinzel'; text-align:center; margin-bottom:20px;" data-i18n="form_title">NOUS CONTACTER</h3>
+            
+            <div style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+                <!-- Champ Nom -->
+                <input type="text" id="contactName" data-i18n-placeholder="ph_name" placeholder="Votre Nom" 
+                       style="padding:12px; background:var(--bg-input); border:1px solid var(--border); color:var(--text-main); border-radius:4px; outline:none;">
+                
+                <!-- Champ Objet -->
+                <input type="text" id="contactSubject" data-i18n-placeholder="ph_subject" placeholder="Objet (ex: Question Concours)" 
+                       style="padding:12px; background:var(--bg-input); border:1px solid var(--border); color:var(--text-main); border-radius:4px; outline:none;">
+
+                <!-- Champ Message -->
+                <textarea id="contactMessage" rows="5" data-i18n-placeholder="ph_message" placeholder="Votre message..." 
+                          style="padding:12px; background:var(--bg-input); border:1px solid var(--border); color:var(--text-main); border-radius:4px; outline:none; resize:vertical;"></textarea>
+
+                <!-- Bouton Envoyer -->
+                <button onclick="sendEmailToAdmin()" 
+                        style="padding:12px; background:var(--gold); color:#000; font-weight:bold; border:none; border-radius:4px; cursor:pointer; transition:0.3s; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fas fa-paper-plane"></i> <span data-i18n="send_btn">ENVOYER LE MESSAGE</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 EXAMEN MADA. <span data-i18n="footer_rights">Tous droits réservés.</span></p>
+    </footer>
+
+    <script>
+        /* =========================================
+           1. SYSTÈME DE TRADUCTION
+           ========================================= */
+        const translations = {
+            fr: {
+                hero_title: "CONTACTEZ-NOUS",
+                hero_desc: "Une question ? Une suggestion ? L'équipe est à votre écoute.",
+                info_title: "Nos Coordonnées",
+                addr_label: "Adresse",
+                phone_label: "Téléphone",
+                email_label: "Email",
+                wa_btn: "DISCUTER SUR WHATSAPP",
+                form_title: "NOUS CONTACTER PAR EMAIL",
+                ph_name: "Votre Nom",
+                ph_subject: "Objet (ex: Question Concours)",
+                ph_message: "Votre message...",
+                send_btn: "ENVOYER LE MESSAGE",
+                footer_rights: "Tous droits réservés."
+            },
+            mg: {
+                hero_title: "MIFANDRAISA AMINAY",
+                hero_desc: "Fanontaniana ? Soso-kevitra ? Vonona hihaino anao izahay.",
+                info_title: "Toerana sy Fifandraisana",
+                addr_label: "Adiresy",
+                phone_label: "Telefaonina",
+                email_label: "Email",
+                wa_btn: "HIRESAKA AMIN'NY WHATSAPP",
+                form_title: "ALEFA EMAIL",
+                ph_name: "Anaranao",
+                ph_subject: "Antony (ohatra: Fanontaniana)",
+                ph_message: "Ny hafatrao...",
+                send_btn: "ALEFASO NY HAFATRA",
+                footer_rights: "Zo rehetra voatokana."
+            },
+            en: {
+                hero_title: "CONTACT US",
+                hero_desc: "Any questions? Suggestions? Our team is here to help.",
+                info_title: "Contact Info",
+                addr_label: "Address",
+                phone_label: "Phone",
+                email_label: "Email",
+                wa_btn: "CHAT ON WHATSAPP",
+                form_title: "SEND US AN EMAIL",
+                ph_name: "Your Name",
+                ph_subject: "Subject (e.g., Question)",
+                ph_message: "Your message...",
+                send_btn: "SEND MESSAGE",
+                footer_rights: "All rights reserved."
+            }
+        };
+
+        function init() {
+            initTheme();
+            const savedLang = localStorage.getItem('lang') || 'fr';
+            document.getElementById('langSelector').value = savedLang;
+            changeLanguage(savedLang);
+        }
+
+        function changeLanguage(lang) {
+            localStorage.setItem('lang', lang);
+
+            // 1. Textes normaux (data-i18n)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // 2. Placeholders (data-i18n-placeholder)
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if(translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+        }
+
+        /* =========================================
+           2. THEME & NAVIGATION
+           ========================================= */
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+        
+        function goHome() {
+            window.location.href = "./index.html"; 
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeIcon(next);
+        }
+
+        function updateThemeIcon(theme) {
+            document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        /* =========================================
+           3. LOGIQUE FORMULAIRE EMAIL
+           ========================================= */
+        function sendEmailToAdmin() {
+            const emailAdmin = "rmiandrisoaderic@gmail.com"; 
+            const name = document.getElementById('contactName').value;
+            const subjectRaw = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if(name === "" || message === "") {
+                const lang = localStorage.getItem('lang') || 'fr';
+                const msg = lang === 'mg' ? "Fenoy ny anarana sy ny hafatra azafady." : "Veuillez remplir votre nom et votre message.";
+                alert(msg);
+                return;
+            }
+
+            const finalSubject = encodeURIComponent(subjectRaw || "Contact depuis Site Web");
+            const finalBody = encodeURIComponent(`Nom : ${name}\n\nMessage :\n${message}`);
+            window.location.href = `mailto:${emailAdmin}?subject=${finalSubject}&body=${finalBody}`;
+        }
+
+        // Lancement
+        init();
+    </script>
+</body>
+</html>
